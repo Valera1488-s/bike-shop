@@ -1,0 +1,9 @@
+#cloud-config
+users:
+  - name: vvv
+    groups: sudo 
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh_authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGUBnusZ3Mj/lffP2+WIs+pzn0/Z5HnSaDzGgiCvuAci vvv@compute-vm-2-4-34-ssd-1742452397804
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH2kWZsh/ijRcn1rWQItA6cyvwyPQPYDQVtj15xqrtyX vvv@vvv
