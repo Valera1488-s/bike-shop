@@ -1,7 +1,9 @@
 // db.js
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/bike-shop', {
+const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/bike-shop';
+
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/bike-shop', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -14,4 +16,3 @@ db.once('open', function () {
 });
 
 module.exports = mongoose;
-

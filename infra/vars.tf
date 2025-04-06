@@ -3,7 +3,7 @@ variable "default_image" {
 }
 
 variable "default_subnet" {
-  default = "fl8vm3ohqeemsnh3755i"
+  default = "e2lepr29l6no9254nkg3"
 }
 
 variable "default_disk_size" {

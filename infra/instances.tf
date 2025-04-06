@@ -1,5 +1,6 @@
 resource "yandex_compute_instance" "app1" {
-  zone = "ru-central1-a"
+  zone = "ru-central1-b"
+  name = "app1"  
 
   resources {
     cores  = 2
@@ -11,21 +12,27 @@ resource "yandex_compute_instance" "app1" {
   }
   
   network_interface {
-    subnet_id = "e9b8hescbr0nq5ou6gen"
+    subnet_id = var.default_subnet
     nat       = true
   }
 
   metadata = {
     user-data = "${file("./admin_uxer.txt")}" 
   }
+
+  labels = {
+    role = "app"
+  }
+
    provisioner "local-exec" {
-     command = "ansible-playbook -i '${self.network_interface.0.nat_ip_address},' ../ansible/app.yml"
+     command = "ansible-playbook -i '${self.network_interface.0.nat_ip_address},' /home/vvv/Valeron1487/bike-shop/infra/ansible/app.yml"
    }
 }
 
 
 resource "yandex_compute_instance" "app2" {
-  zone = "ru-central1-a"
+  zone = "ru-central1-b"
+  name = "app2"
 
   resources {
     cores  = 2
@@ -45,13 +52,18 @@ resource "yandex_compute_instance" "app2" {
     user-data = file("./admin_uxer.txt")
   }
 
+  labels = {
+    role = "app"
+  }  
+
   provisioner "local-exec" {
-    command = "ansible-playbook -i '${self.network_interface.0.nat_ip_address},' ../ansible/app.yml"
+    command = "ansible-playbook -i '${self.network_interface.0.nat_ip_address},' /home/vvv/Valeron1487/bike-shop/infra/ansible/app.yml"
   }
 }
 
 resource "yandex_compute_instance" "db" {
-  zone = "ru-central1-a"
+  zone = "ru-central1-b"
+  name = "db"
 
   resources {
     cores  = 2
@@ -70,14 +82,19 @@ resource "yandex_compute_instance" "db" {
   metadata = {
     user-data = file("./admin_uxer.txt")
   }
+  
+  labels = {
+    role = "db"
+  }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i '${self.network_interface.0.nat_ip_address},' ../ansible/db.yml"
+    command = "ansible-playbook -i '${self.network_interface.0.nat_ip_address},' /home/vvv/Valeron1487/bike-shop/infra/ansible/db.yml"
   }
 }
 
 resource "yandex_compute_instance" "proxy" {
-  zone = "ru-central1-a"
+  zone = "ru-central1-b"
+  name = "proxy"
 
   resources {
     cores  = 2
@@ -96,8 +113,12 @@ resource "yandex_compute_instance" "proxy" {
   metadata = {
     user-data = file("./admin_uxer.txt")
   }
-
+  
+  labels = {
+    role = "proxy"
+  }
+  
   provisioner "local-exec" {
-    command = "ansible-playbook -i '${self.network_interface.0.nat_ip_address},' ../ansible/proxy.yml"
+    command = "ansible-playbook -i '${self.network_interface.0.nat_ip_address},' /home/vvv/Valeron1487/bike-shop/infra/ansible/proxy.yml"
   }
 }

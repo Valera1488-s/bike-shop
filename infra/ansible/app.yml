@@ -1,8 +1,32 @@
-- hosts: all
+- name: Install Docker and run bike-shop application
+  hosts: app
   become: yes
   tasks:
-    - name: Update apt cache
+    - name: Install Docker
       apt:
+        name: docker.io
+        state: present
         update_cache: yes
 
-    -name: Install Node.js and npm
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+
+    - name: Copy project files
+      ansible.builtin.synchronize:
+        src: /home/vvv/Valeron1487/bike-shop/
+        dest: /home/vvv/bike-shop/
+        recursive: yes
+
+    - name: Build and run Docker containers
+      command: docker-compose up -d
+      args:
+        chdir: /home/vvv/bike-shop

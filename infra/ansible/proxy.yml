@@ -1,0 +1,31 @@
+- name: Install Nginx and configure proxy
+  hosts: proxy
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Copy Nginx configuration
+      copy:
+        src: /home/vvv/Valeron1487/bike-shop/nginx.conf
+        dest: /etc/nginx/sites-available/default
+
+    - name: Create symlink for Nginx configuration
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted

@@ -1,0 +1,47 @@
+---
+- name: Установка MongoDB на Debian 11
+  hosts: db1
+  become: yes
+
+  tasks:
+    - name: Обновить систему
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Установить необходимые пакеты
+      apt:
+        name:
+          - gnupg2
+          - wget
+        state: present
+
+    - name: Добавить публичный GPG-ключ MongoDB
+      apt_key:
+        url: https://www.mongodb.org/static/pgp/server-5.0.asc
+        state: present
+
+    - name: Добавить репозиторий MongoDB
+      apt_repository:
+        repo: "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main"
+        state: present
+
+    - name: Обновить список пакетов
+      apt:
+        update_cache: yes
+
+    - name: Установить MongoDB
+      apt:
+        name: mongodb-org
+        state: present
+
+    - name: Запустить и включить автозапуск службы MongoDB
+      service:
+        name: mongod
+        state: started
+        enabled: yes
+
+    - name: Проверить статус службы MongoDB
+      service:
+        name: mongod
+        state: started
