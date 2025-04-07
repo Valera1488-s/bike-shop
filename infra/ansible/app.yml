@@ -27,6 +27,6 @@
         recursive: yes
 
     - name: Build and run Docker containers
-      command: docker-compose up -d
+      command: docker-compose up -d --force-recreate
       args:
         chdir: /home/vvv/bike-shop

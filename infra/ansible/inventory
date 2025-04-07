@@ -1,8 +1,8 @@
 [app]
-app1 ansible_host=158.160.18.48 ansible_user=vvv
+app1 ansible_host=158.160.68.59 ansible_user=vvv
 
 [db]
-db1 ansible_host=158.160.18.48 ansible_user=vvv
+db1 ansible_host=158.160.68.59 ansible_user=vvv
 
 [proxy]
-proxy1 ansible_host=158.160.5.251 ansible_user=vvv
+proxy1 ansible_host=158.160.95.15 ansible_user=vvv
